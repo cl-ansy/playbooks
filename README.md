@@ -47,10 +47,6 @@ ansible-vault edit group_vars/vault.yml
 
 Set `vault_user_password` to the sudo password you want on the server.
 
-### 3. Configure inventory
-
-Copy `inventory.example.yml` to `inventory.yml` and fill in your server IP.
-
 ## Usage
 
 ### First run (as root, sets up user and SSH)
@@ -67,7 +63,7 @@ ansible-playbook -i inventory.yml setup.yml```
 ### Deploy an app
 
 ```bash
-ansible-playbook -i inventory.yml deploy.yml --limit arbolio-prod```
+ansible-playbook -i inventory.yml deploy.yml --limit arbolio```
 
 ### Full setup + deploy
 
@@ -77,7 +73,7 @@ ansible-playbook -i inventory.yml site.yml```
 ### Target a single host
 
 ```bash
-ansible-playbook -i inventory.yml site.yml --limit arbolio-prod```
+ansible-playbook -i inventory.yml site.yml --limit arbolio```
 
 ## Adding a new project
 
