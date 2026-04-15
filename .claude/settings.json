@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.vault_pass)"
+    ]
+  },
+  "sandbox": {
+    "filesystem": {
+      "denyRead": [
+        ".vault_pass"
+      ]
+    }
+  }
+}
