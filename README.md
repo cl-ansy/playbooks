@@ -11,8 +11,9 @@ Ansible playbooks for provisioning Debian servers. Handles user setup, SSH harde
 ## Structure
 
 ```
-playbook.yml               # runs debian + apps
-debian.yml                 # base + docker + traefik
+playbook.yml               # runs debian + infra + apps
+debian.yml                 # base OS setup
+infra.yml                  # docker + traefik
 apps.yml                   # cloudflare-tunnel + app
 inventory.yml              # hosts and per-app config
 group_vars/
@@ -56,10 +57,15 @@ Set `vault_user_password` to the sudo password you want on the server.
 ansible-playbook -i inventory.yml debian.yml --user root --limit <host>
 ```
 
-### Provision a server (no app deploy)
+### Provision a server (base OS only)
 
 ```bash
 ansible-playbook -i inventory.yml debian.yml```
+
+### Set up infrastructure (Docker + Traefik)
+
+```bash
+ansible-playbook -i inventory.yml infra.yml```
 
 ### Deploy an app
 

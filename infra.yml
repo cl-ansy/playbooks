@@ -1,0 +1,6 @@
+- name: Infrastructure setup
+  hosts: webservers
+  become: true
+  roles:
+    - docker
+    - traefik

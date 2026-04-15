@@ -12,8 +12,11 @@ Ansible playbooks for provisioning Debian servers. Handles user setup, SSH harde
 # First run (as root, creates user and hardens SSH)
 ansible-playbook -i inventory.yml debian.yml --user root --limit <host>
 
-# Provision server (base + docker + traefik)
+# Provision server (base OS only)
 ansible-playbook -i inventory.yml debian.yml
+
+# Set up infrastructure (Docker + Traefik)
+ansible-playbook -i inventory.yml infra.yml
 
 # Deploy app (cloudflare-tunnel + app)
 ansible-playbook -i inventory.yml apps.yml --limit <host>
@@ -27,11 +30,12 @@ ansible-vault edit group_vars/vault.yml
 
 ## Architecture
 
-Two-phase playbook design:
+Three-phase playbook design:
 
-- `debian.yml` - server provisioning: `base` -> `docker` -> `traefik`
+- `debian.yml` - base OS setup: `base`
+- `infra.yml` - infrastructure: `docker` -> `traefik`
 - `apps.yml` - app deployment: `cloudflare-tunnel` -> `app`
-- `playbook.yml` - runs both in sequence
+- `playbook.yml` - runs all three in sequence
 
 Each host in `inventory.yml` represents one app deployment with per-host vars (`app_name`, `app_domain`, `app_repo`). Shared defaults live in `group_vars/all.yml`. Secrets are in `group_vars/vault.yml` (ansible-vault encrypted, password in `.vault_pass`).
 
