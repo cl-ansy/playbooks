@@ -10,16 +10,16 @@ Ansible playbooks for provisioning Debian servers. Handles user setup, SSH harde
 
 ```bash
 # First run (as root, creates user and hardens SSH)
-ansible-playbook -i inventory.yml setup.yml --user root --limit <host>
+ansible-playbook -i inventory.yml debian.yml --user root --limit <host>
 
 # Provision server (base + docker + traefik)
-ansible-playbook -i inventory.yml setup.yml
+ansible-playbook -i inventory.yml debian.yml
 
 # Deploy app (cloudflare-tunnel + app)
-ansible-playbook -i inventory.yml deploy.yml --limit <host>
+ansible-playbook -i inventory.yml apps.yml --limit <host>
 
 # Full setup + deploy
-ansible-playbook -i inventory.yml site.yml
+ansible-playbook -i inventory.yml playbook.yml
 
 # Edit encrypted secrets
 ansible-vault edit group_vars/vault.yml
@@ -29,9 +29,9 @@ ansible-vault edit group_vars/vault.yml
 
 Two-phase playbook design:
 
-- `setup.yml` - server provisioning: `base` -> `docker` -> `traefik`
-- `deploy.yml` - app deployment: `cloudflare-tunnel` -> `app`
-- `site.yml` - runs both in sequence
+- `debian.yml` - server provisioning: `base` -> `docker` -> `traefik`
+- `apps.yml` - app deployment: `cloudflare-tunnel` -> `app`
+- `playbook.yml` - runs both in sequence
 
 Each host in `inventory.yml` represents one app deployment with per-host vars (`app_name`, `app_domain`, `app_repo`). Shared defaults live in `group_vars/all.yml`. Secrets are in `group_vars/vault.yml` (ansible-vault encrypted, password in `.vault_pass`).
 

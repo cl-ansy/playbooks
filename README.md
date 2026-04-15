@@ -11,12 +11,13 @@ Ansible playbooks for provisioning Debian servers. Handles user setup, SSH harde
 ## Structure
 
 ```
-site.yml                   # runs setup + deploy
-setup.yml                  # base + docker + traefik
-deploy.yml                 # cloudflare-tunnel + app
+playbook.yml               # runs debian + apps
+debian.yml                 # base + docker + traefik
+apps.yml                   # cloudflare-tunnel + app
 inventory.yml              # hosts and per-app config
 group_vars/
   all.yml                  # shared defaults
+  vault.yml                # encrypted secrets
 roles/
   base/                    # user creation, SSH hardening
   docker/                  # Docker + Compose
@@ -52,28 +53,28 @@ Set `vault_user_password` to the sudo password you want on the server.
 ### First run (as root, sets up user and SSH)
 
 ```bash
-ansible-playbook -i inventory.yml setup.yml --user root --limit <host>
+ansible-playbook -i inventory.yml debian.yml --user root --limit <host>
 ```
 
 ### Provision a server (no app deploy)
 
 ```bash
-ansible-playbook -i inventory.yml setup.yml```
+ansible-playbook -i inventory.yml debian.yml```
 
 ### Deploy an app
 
 ```bash
-ansible-playbook -i inventory.yml deploy.yml --limit arbolio```
+ansible-playbook -i inventory.yml apps.yml --limit arbolio```
 
 ### Full setup + deploy
 
 ```bash
-ansible-playbook -i inventory.yml site.yml```
+ansible-playbook -i inventory.yml playbook.yml```
 
 ### Target a single host
 
 ```bash
-ansible-playbook -i inventory.yml site.yml --limit arbolio```
+ansible-playbook -i inventory.yml playbook.yml --limit arbolio```
 
 ## Adding a new project
 
