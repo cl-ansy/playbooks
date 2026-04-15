@@ -1,0 +1,7 @@
+- name: Base server setup
+  hosts: webservers
+  become: true
+  roles:
+    - base
+    - docker
+    - traefik

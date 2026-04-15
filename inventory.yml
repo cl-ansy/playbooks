@@ -1,0 +1,9 @@
+all:
+  children:
+    webservers:
+      hosts:
+        arbolio-prod:
+          ansible_host: <your-server-ip>
+          app_name: arbolio
+          app_domain: arbolio.com
+          app_repo: git@github.com:youruser/arbolio.git

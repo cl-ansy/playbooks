@@ -1,0 +1,26 @@
+- name: Create user
+  user:
+    name: "{{ username }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: true
+    password: "{{ user_password | password_hash('sha512') }}"
+
+- name: Copy SSH key to new user
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+
+- name: Disable root SSH login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: restart sshd
+
+- name: Disable password auth
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: restart sshd

@@ -1,0 +1,6 @@
+- name: Deploy app
+  hosts: webservers
+  become: true
+  roles:
+    - cloudflare-tunnel
+    - app

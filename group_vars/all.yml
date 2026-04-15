@@ -1,0 +1,4 @@
+username: chris
+ssh_port: 22
+user_password: "{{ vault_user_password }}"
+docker_compose_version: "v2.29.1"
